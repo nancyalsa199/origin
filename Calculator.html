@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+  <link href="Calculator.css" rel="stylesheet"/>
+  <script src="Calculator.js"></script>
+</head>
+<body>
+
+  <div id="calculator">
+    <div id="display">0</div>
+    <div id="buttons">
+      <button class="button" data-value="7">7</button>
+      <button class="button" data-value="8">8</button>
+      <button class="button" data-value="9">9</button>
+      <button class="button operands" data-value="/">&#247;</button>
+
+      <button class="button" data-value="4">4</button>
+      <button class="button" data-value="5">5</button>
+      <button class="button" data-value="6">6</button>
+      <button class="button operands" data-value="*">&#215;</button>
+
+      <button class="button" data-value="1">1</button>
+      <button class="button" data-value="2">2</button>
+      <button class="button" data-value="3">3</button>
+      <button class="button operands" data-value="-">-</button>
+
+      <button class="button" data-value="0">0</button>
+      <button class="button" data-value=".">.</button>
+      <button class="button" id="clear">C</button>
+      <button class="button operands" data-value="+">+</button>
+
+      <button class="button operands" id="equals">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+    const buttons = document.querySelectorAll(".button");
+    //Adding Event Listener to each button
+    buttons.forEach(button => {
+      button.addEventListener("click", function() {
+        //إضافة صوت لكل زر
+        const clickSound = new Audio("click-sound.mp3")
+        clickSound.currentTime = 0;
+        clickSound.play();
+        const value = this.getAttribute("data-value");
+        // A simple test , because if the button is clear button we will process it individualy
+        if (!value) return;
+        // إذا كانت الشاشة تعرض "0" قم بالاستبدال، وإلا قم بإضافة الرقم إلى السلسة النصية
+        if (display.innerText === "0") {
+          display.innerText = value;
+        } else {
+          display.innerText += value;
+        }
+      });
+    });
+    // زر الحذف
+    document.getElementById("clear").addEventListener("click", function() {
+      display.innerText = "0";
+    });
+    // زر الحساب (تقييم التعبير)
+    document.getElementById("equals").addEventListener("click", function() {
+        const result = claculate(display.innerText);
+        display.innerText = result;
+    });
+  </script>
+</body>
+</html>
